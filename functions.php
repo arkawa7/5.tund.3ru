@@ -2,7 +2,8 @@
 	//functions.php
 	require_once("../configglobal.php");
 	$database = "if15_arkadi_3";
-	$mysqli = new mysqli ($servername, $server_username, $server_password, $database);
+	
+	session_start();
 	
 	function createUser($create_email, $hash) {
 		
@@ -23,12 +24,20 @@
 		$stmt->execute();
 		if($stmt->fetch()){	
 			echo "Email ja parool on õiged, kasutaja id=".$id_from_db;
+			
+			//teiktan sessiooni muutujad
+			$_SESSION["logged_in_user_id"] = $id_from_db;
+			$_SESSION["logged_in_user_email"] = $email_from_db;
+			
+			header("Location: data.php");
+			
 		}else{
 			echo "Wrong credentials!";
 				}
 		$stmt->close();
-	}
 		$mysqli->close();
+	}
+		
 	
 	
 	
