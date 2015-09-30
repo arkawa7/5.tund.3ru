@@ -10,9 +10,52 @@
 		
 		header("Location: login_sample.php");
 	}
-
+	
+	$number_plate = $color = "";
+	$number_plate_error = $color_error = "";
+	
+	 if(isset($_POST["add_plate"])){
+		
+		//echo $_SESSION["logged_in_user_id"]; 
+		
+		if ( empty($_POST["number_plate"]) ) {
+			$number_plate_error = "See väli on kohustuslik";
+		}else{
+			$number_plate = cleanInput($_POST["number_plate"]);
+		}
+		
+		if ( empty($_POST["color"]) ) {
+				$color_error = "See väli on kohustuslik";
+		}else{
+			$color = cleanInput($_POST["color"]);
+		}
+		
+		if($color_error == "" && $number_plate_error == ""){
+			addCarPlate($number_plate, $color);
+		}
+	}
+		
+	
+	function cleanInput($data) {
+		$data = trim($data);
+		$data = stripslashes($data);
+		$data = htmlspecialchars($data);
+		return $data;
+  }
 
 ?>
 <p>
-	Tere, <?php echo $_SESSION["logged_in_user_email"];?>
+	Tere, <? echo $_SESSION["logged_in_user_id"];?>
 	<a href="?logout=1>"> Logi välja <a>
+</p>
+
+<h2>Lisa autonumbrimärk</h2>
+<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" >
+	<label for="number_plate">Auto numbrimärk</label>
+  	<input id="number_plate" type="text"  value="<?php $number_plate; ?>"> <?=$number_plate_error; ?><br><br>
+	<label for="color">Värv</label><br>
+  	<input id="color" type="text"  value="<?php echo $color; ?>"> <?=$color_error; ?><br><br>
+  	<input type="submit" name="add_plate" value="Salvesta">
+  </form>
+  
+ 
