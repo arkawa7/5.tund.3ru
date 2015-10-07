@@ -31,7 +31,14 @@
 		}
 		
 		if($color_error == "" && $number_plate_error == ""){
-			addCarPlate($number_plate, $color);
+			$msg = addCarPlate($number_plate, $color);
+			if($msg !=""){
+				$number_plate = "";
+				$color ="";
+				
+				echo $msg;
+				
+			}
 		}
 	}
 		
@@ -52,9 +59,9 @@
 <h2>Lisa autonumbrimärk</h2>
 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" >
 	<label for="number_plate">Auto numbrimärk</label>
-  	<input id="number_plate" type="text"  value="<?php $number_plate; ?>"> <?=$number_plate_error; ?><br><br>
+  	<input id="number_plate" name="number_plate" type="text"  value="<?php $number_plate; ?>"> <?=$number_plate_error; ?><br><br>
 	<label for="color">Värv</label><br>
-  	<input id="color" type="text"  value="<?php echo $color; ?>"> <?=$color_error; ?><br><br>
+  	<input id="color" name="color" type="text"  value="<?php echo $color; ?>"> <?=$color_error; ?><br><br>
   	<input type="submit" name="add_plate" value="Salvesta">
   </form>
   
